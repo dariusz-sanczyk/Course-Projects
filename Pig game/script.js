@@ -4,6 +4,11 @@ const rollMachine = function () {
   let newRoll = Math.trunc(Math.random() * 6 + 1);
   return newRoll;
 };
+// let score0 = Number(document.getElementById('score--0').innerHTML);
+// let score1 = Number(document.getElementById('score--1').innerHTML);
+
+let score0 = 0;
+let score1 = 0;
 let currScore = 0;
 
 const player0El = document.querySelector('.player--0');
@@ -34,6 +39,11 @@ const displayCurrScore = function (score, player) {
   document.getElementById('current--' + player).textContent = score;
 };
 
+const checkScore = function () {
+  score0 = Number(document.getElementById('score--0').innerHTML);
+  score1 = Number(document.getElementById('score--1').innerHTML);
+};
+
 const switchPlayer = function () {
   if (player0El.classList.contains('player--active')) {
     player0El.classList.remove('player--active');
@@ -62,16 +72,30 @@ const hold = function () {
   displayScore(currScore, currPLayer());
   currScore = 0;
   displayCurrScore(currScore, currPLayer());
-  switchPlayer();
+  checkScore();
+  console.log(score0);
+  console.log(score1);
+  if (score0 >= 10) {
+    player0El.classList.add('player--winner');
+  } else if (score1 >= 10) {
+    player1El.classList.add('player--winner');
+  } else {
+    switchPlayer();
+  }
 };
 
 const newGame = function () {
+  score0 = 0;
+  score1 = 0;
   currScore = 0;
   currentScorePlayer0El.textContent = 0;
   currentScorePlayer1El.textContent = 0;
   scorePlayer0El.textContent = 0;
   scorePlayer1El.textContent = 0;
   diceEl.classList.add('hidden');
+  player0El.classList.add('player--active');
+  player1El.classList.remove('player--active', 'player--winner');
+  player0El.classList.remove('player--winner');
 };
 
 rollBtn.addEventListener('click', roll);
