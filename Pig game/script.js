@@ -9,6 +9,7 @@ const rollMachine = function () {
 let score0 = 0;
 let score1 = 0;
 let currScore = 0;
+let gameActive = true;
 
 const player0El = document.querySelector('.player--0');
 const player1El = document.querySelector('.player--1');
@@ -55,32 +56,38 @@ const switchPlayer = function () {
 };
 // Rolling dice and checking for '1' condition
 const roll = function () {
-  const roll = rollMachine();
-  diceEl.setAttribute('src', `dice-${roll}.png`);
-  diceEl.classList.remove('hidden');
-  if (roll !== 1) {
-    currScore += roll;
-    displayCurrScore(currScore, currPLayer());
-  } else {
-    currScore = 0;
-    displayCurrScore(currScore, currPLayer());
-    switchPlayer();
+  if (gameActive) {
+    const roll = rollMachine();
+    diceEl.setAttribute('src', `dice-${roll}.png`);
+    diceEl.classList.remove('hidden');
+    if (roll !== 1) {
+      currScore += roll;
+      displayCurrScore(currScore, currPLayer());
+    } else {
+      currScore = 0;
+      displayCurrScore(currScore, currPLayer());
+      switchPlayer();
+    }
   }
 };
 // Holding current score and checking for win
 const hold = function () {
-  displayScore(currScore, currPLayer());
-  currScore = 0;
-  displayCurrScore(currScore, currPLayer());
-  checkScore();
-  if (score0 >= 100) {
-    player0El.classList.add('player--winner');
-    player0WinnerEl.classList.remove('hidden');
-  } else if (score1 >= 100) {
-    player1El.classList.add('player--winner');
-    player1WinnerEl.classList.remove('hidden');
-  } else {
-    switchPlayer();
+  if (gameActive) {
+    displayScore(currScore, currPLayer());
+    currScore = 0;
+    displayCurrScore(currScore, currPLayer());
+    checkScore();
+    if (score0 >= 100) {
+      player0El.classList.add('player--winner');
+      player0WinnerEl.classList.remove('hidden');
+      gameActive = false;
+    } else if (score1 >= 100) {
+      player1El.classList.add('player--winner');
+      player1WinnerEl.classList.remove('hidden');
+      gameActive = false;
+    } else {
+      switchPlayer();
+    }
   }
 };
 //  Reset all scores and winners
