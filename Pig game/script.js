@@ -23,7 +23,6 @@ const diceEl = document.querySelector('.dice');
 const rollBtn = document.querySelector('.btn--roll');
 const holdBtn = document.querySelector('.btn--hold');
 const newGameBtn = document.querySelector('.btn--new');
-const bodyEl = document.querySelector('body');
 
 // Identify current player
 const currPLayer = function () {
